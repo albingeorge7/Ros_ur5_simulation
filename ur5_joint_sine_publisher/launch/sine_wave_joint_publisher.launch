@@ -1,0 +1,25 @@
+<launch>
+    <arg name="world" default="$(find gazebo_ros)/worlds/empty.world" />
+
+    <!-- Load robot description -->
+    <param name="robot_description" command="$(find xacro)/xacro $(find ur_description)/urdf/ur5.xacro" />
+
+    <!-- Launch Gazebo with the UR5 robot -->
+    <node name="gazebo" pkg="gazebo_ros" type="gzserver" args="$(arg world)" respawn="false" output="screen" />
+    <node name="gazebo_gui" pkg="gazebo_ros" type="gzclient" respawn="false" output="screen" />
+
+    <node name="spawn_ur5" pkg="gazebo_ros" type="spawn_model" args="-urdf -param robot_description -model ur5" />
+
+    <rosparam file="/home/albin/ur5_ws/src/universal_robot/ur5_control/config/controller_config.yaml" command="load" />
+
+    <node name="joint_state_spawner" pkg="controller_manager" type="spawner" args="joint_state_controller" output="screen" />
+
+    <node name="trajectory_spawner" pkg="controller_manager" type="spawner" args="arm_controller" output="screen" />
+
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen"/>
+
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+    <node name="sine_wave_joint_publisher" pkg="ur5_joint_sine_publisher" type="sine_wave_joint_publisher.py" output="screen" />
+
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find ur5_joint_sine_publisher)/rviz/ur5sinewave.rviz" />
+</launch>

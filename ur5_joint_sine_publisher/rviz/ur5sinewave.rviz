@@ -1,0 +1,27 @@
+Visualization Manager:
+  Class: rviz/VisualizationManager
+  Enabled: true
+  Panels:
+    - Class: rviz/Panel
+      Name: Displays
+  Displays:
+    - Class: rviz/RobotModel
+      Name: RobotModel
+      Enabled: true
+      Robot Description: robot_description
+      Alpha: 1
+      Wireframe: false
+      Use Color: true
+    - Class: rviz/JointState
+      Name: JointState
+      Enabled: true
+      Topic: /ur5/joint_states
+      Show in GUI: true
+      Max Distance: 10
+      Radius: 0.1
+      Color: 0.0, 0.0, 0.0
+  Fixed Frame: world
+  Background Color: 0.0, 0.0, 0.0
+  View Manager:
+    Class: rviz/FixedViewManager
+    Save: true
