@@ -107,7 +107,7 @@ Access the interface in your web browser at http://127.0.0.1:5000.
 Usage Guide
 
   
-    robot_urdf = "/home/albin/ur5_ws/src/universal_robot/ur_description/urdf/urdf/xacro"  # Provide the URDF path
+    robot_urdf = "/home/albin/ur5_ws/src/universal_robot/ur_description/urdf/urdf/xacro/ur5.xacro"  # Provide the URDF path
     api = RobotMotionAPI(robot_urdf)
 
 
@@ -140,7 +140,6 @@ Enter your desired motion primitive or API call in the provided interface.
 
 Receive code suggestions and explanations powered by the integrated LLM.
 
-Development
 
   Key Components
 
