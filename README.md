@@ -2,132 +2,139 @@ Motion Library for UR5
 
 Overview
 
-This repository contains a Python-based motion library and a Flask-Dash Copilot interface designed for simulating and controlling the UR5 robotic arm. The project provides the following features:
+  This repository contains a Python-based motion library and a Flask-Dash  interface designed for simulating and controlling the UR5 robotic arm. The project provides the following features:
 
-Joint and linear motion planning primitives.
+  1. Joint and linear motion planning primitives.
 
-Gazebo integration to visualize and execute motion.
+  2. Gazebo integration to visualize and execute motion.
 
-Flask-Dash Copilot interface for code suggestions using open-source LLMs.
+  3. Flask-Dash Copilot interface for code suggestions using open-source LLMs.
 
 Features
 
-Motion Library
+  1. Motion Library
 
-Joint Motion: Moves the robot between two points in joint space.
+  2. Joint Motion: Moves the robot between two points in joint space.
 
-Linear Motion: Moves the robot between two poses in Cartesian space.
+  3. Linear Motion: Moves the robot between two poses in Cartesian space.
 
-Includes an inverse kinematics (IK) solver using PyKDL.
+  4. Includes an inverse kinematics (IK) solver using PyKDL.
 
-Copilot Integration
+  5. Copilot Integration
 
-Interactive interface for code suggestions.
+  6. Interactive interface for code suggestions.
 
-Suggests motion primitives and APIs via an LLM-powered backend.
+  7. Suggests motion primitives and APIs via an LLM-powered backend.
 
-Gazebo Integration
+  8. Gazebo Integration
 
-Publishes joint motion outputs to the Gazebo simulation environment.
+  9. Publishes joint motion outputs to the Gazebo simulation environment.
 
-Visualizes robot motion in Gazebo and RViz.
+  10. Visualizes robot motion in Gazebo and RViz.
 
 Installation Guide
 
-Step 1: Install ROS (Robot Operating System)
+  Step 1: Install ROS (Robot Operating System)
 
-Follow the official ROS installation guide for your platform: ROS Installation Guide.
+    Follow the official ROS installation guide for your platform: ROS Installation Guide.
 
-Verify the installation by running:
+    Verify the installation by running:
 
-roscore
+      roscore
 
-Step 2: Create a ROS Workspace
+  Step 2: Create a ROS Workspace
 
-Create a workspace directory:
+    Create a workspace directory:
 
-mkdir -p ~/ur5_ws/src
-cd ~/ur5_ws/src
-catkin_init_workspace
+    mkdir -p ~/ur5_ws/src
+    cd ~/ur5_ws/src
+    catkin_init_workspace
 
-Build the workspace:
+  Build the workspace:
 
-cd ~/ur5_ws
-catkin_make
+    cd ~/ur5_ws
+    catkin_make
 
-Source the workspace setup file:
+  Source the workspace setup file:
 
-source ~/ur5_ws/devel/setup.bash
+    source ~/ur5_ws/devel/setup.bash
 
-Step 3: Install Required Libraries
+  Step 3: Install Required Libraries
 
-Install dependencies:
+  Install dependencies:
 
-sudo apt-get update
-sudo apt-get install ros-<your_ros_distro>-kdl-parser-py python3-pykdl python3-flask python3-dash python3-rosdep
+    sudo apt-get update
+    sudo apt-get install ros-<your_ros_distro>-kdl-parser-py python3-pykdl python3-flask python3-dash python3-rosdep
 
-Install Python packages:
+  Install Python packages:
 
-pip install numpy flask dash plotly openai
+    pip install numpy flask dash plotly openai
 
 Setting Up the Repository
 
-Clone the repository:
+  Clone the repository:
 
-git clone <repository-url>
-cd <repository-name>
+    git clone albingeorge7/Ros_ur5_simulation
+    cd clone albingeorge7/Ros_ur5_simulation
 
-Copy the URDF file of your robot (e.g., UR5) to the appropriate directory.
+  Copy the URDF file of your robot (e.g., UR5) to the appropriate directory.
 
-Configure the Flask-Dash application:
+  Configure the Flask-Dash application:
 
-Modify the app.py file to include your OpenAI or LLM API keys if necessary.
+
 
 Running the Application
 
-Step 1: Launch ROS Core and Gazebo
+  Step 1: Launch 
 
-Start ROS core:
+  roslaunch ur5_joint_sine_publisher sine_wave_joint_publisher.launch
+    
 
-roscore
+  Step 2: Run the Motion Library
 
-Launch the Gazebo simulation:
+  Start the motion publisher:
 
-roslaunch ur_gazebo ur5.launch
+    python motion_library.py
 
-Step 2: Run the Motion Library
+  Step 3: Start the Flask-Dash Copilot
 
-Start the motion publisher:
+  Run the Flask-Dash application:
 
-python motion_library.py
-
-Step 3: Start the Flask-Dash Copilot
-
-Run the Flask-Dash application:
-
-python app.py
+    python app.py
 
 Access the interface in your web browser at http://127.0.0.1:5000.
 
 Usage Guide
 
-Motion Library
+  
+    robot_urdf = "/home/albin/ur5_ws/src/universal_robot/ur_description/urdf/urdf/xacro"  # Provide the URDF path
+    api = RobotMotionAPI(robot_urdf)
 
-Import the library and initialize the robot controller:
 
-from motion_library import UR5MotionController
+    point1 = np.array([0, 0, 0, 0, 0, 0])  # Starting joint configuration
+    point2 = np.array([1, 1, 1, 1, 1, 1])  # Ending joint configuration
+    joint_velocity = 0.1
+    joint_acceleration = 0.1
 
-controller = UR5MotionController(robot_urdf='path_to_urdf')
+    api.move_robot_joint(point1, point2, joint_velocity, joint_acceleration) #joint move
 
-Execute a joint motion:
 
-controller.joint_motion([0, 0, 0, 0, 0, 0], [1, 1, 1, 1, 1, 1], 0.5, 0.2)
+    pose1 = np.array([[1, 0, 0, 0.5],
+                      [0, 1, 0, 0.5],
+                      [0, 0, 1, 0.5],
+                      [0, 0, 0, 1]])
 
-Execute a linear motion:
+    pose2 = np.array([[1, 0, 0, 1.0],
+                      [0, 1, 0, 1.0],
+                      [0, 0, 1, 1.0],
+                      [0, 0, 0, 1]])
 
-controller.linear_motion(pose1, pose2, 0.5, 0.2)
+    linear_velocity = 0.1
+    linear_acceleration = 0.1
 
-Copilot Interface
+    api.move_robot_cartesian(pose1, pose2, linear_velocity, linear_acceleration) #cartesian move
+    
+  Copilot Interface
 
 Enter your desired motion primitive or API call in the provided interface.
 
@@ -135,34 +142,17 @@ Receive code suggestions and explanations powered by the integrated LLM.
 
 Development
 
-Key Components
+  Key Components
 
-motion_library.py: Implements the motion planning primitives.
+  motion_library.py: Implements the motion planning primitives.
 
-app.py: Flask-Dash application for the Copilot interface.
+  copilot.py: Flask-Dash application for the Copilot interface.
 
-ur5_sine_wave_publisher.py: Publishes sine wave motion to Gazebo.
+  sine_wave_joint_publisher.py: Publishes sine wave motion to Gazebo.
 
-Launch Files:
+  Launch Files:
 
-sine_wave.launch: Launches the sine wave publisher.
+  sine_wave_joint_publisher.launch: Launches the sine wave publisher.
 
-ur5_visualization.launch: Configures RViz for motion visualization.
+  ur5_sinewave.rviz: Configures RViz for motion visualization.
 
-Contributing
-
-Contributions are welcome! Feel free to open issues or submit pull requests for new features, bug fixes, or documentation updates.
-
-License
-
-This project is licensed under the MIT License.
-
-Acknowledgments
-
-ROS and Gazebo for simulation.
-
-PyKDL for the inverse kinematics solver.
-
-Flask and Dash for the Copilot interface.
-
-OpenAI for LLM-based code suggestions.
