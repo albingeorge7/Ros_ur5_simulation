@@ -22,8 +22,9 @@ const fmt = (iso) => new Date(iso).toLocaleString([], { dateStyle: 'medium', tim
   const cards = [
     ['Driver', info.driverName], ['Phone', `<a href="${tel}">${esc(info.phone)}</a>`],
     ['Address', `<a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(info.address)}">${esc(info.address)}</a>`],
-    ['Vehicle', info.vehicle], ['Cab number', info.licence], ['Hours', info.hours],
+    ['Vehicle', info.vehicle], ['Hours', info.hours],
   ];
+  if (info.licence) cards.push(['Cab number', info.licence]);
   if (info.email) cards.push(['Email', `<a href="mailto:${esc(info.email)}">${esc(info.email)}</a>`]);
   $('#details').innerHTML = cards.map(([h, v]) => `<div class="card"><h3>${h}</h3><p>${h === 'Phone' || h === 'Address' || h === 'Email' ? v : esc(v)}</p></div>`).join('');
   $('#areas').innerHTML = info.areas.map((a) => `<span class="chip">${esc(a.trim())}</span>`).join('');

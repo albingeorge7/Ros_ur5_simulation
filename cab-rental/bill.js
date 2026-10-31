@@ -22,7 +22,7 @@ h1{margin:0;font-size:22px;color:#b45309}.top{display:flex;justify-content:space
 .btn{display:inline-block;margin-top:12px;padding:10px 16px;background:#f59e0b;border:0;border-radius:8px;font-weight:600;cursor:pointer}
 @media print{body{background:#fff;padding:0}.sheet{box-shadow:none}.btn{display:none}}
 </style></head><body><div class="sheet">
-<div class="top"><div><h1>${esc(b.name)}</h1><div class="muted">${esc(b.driverName)}<br>${esc(b.address)}<br>${esc(b.phone)}${b.email ? ' • ' + esc(b.email) : ''}<br>Vehicle: ${esc(b.licence)}</div></div>
+<div class="top"><div><h1>${esc(b.name)}</h1><div class="muted">${esc(b.driverName)}<br>${esc(b.address)}<br>${esc(b.phone)}${b.email ? ' • ' + esc(b.email) : ''}${b.licence ? '<br>Vehicle: ' + esc(b.licence) : ''}</div></div>
 <div class="muted" style="text-align:right"><strong style="font-size:16px;color:#111827">BILL ${esc(bill.number)}</strong><br>Date: ${esc(when(bill.created_at, { dateStyle: 'medium' }))}<br>Booking: ${esc(booking.ref)}</div></div>
 <p><strong>Billed to:</strong> ${esc(booking.name)}<br><span class="muted">${esc(booking.phone)}${booking.email ? ' • ' + esc(booking.email) : ''}</span></p>
 <p><strong>Trip:</strong> ${esc(booking.pickup)} → ${esc(booking.dropoff)}<br><span class="muted">Pickup: ${esc(when(booking.pickup_at))} • ${booking.passengers} passenger(s)</span></p>
