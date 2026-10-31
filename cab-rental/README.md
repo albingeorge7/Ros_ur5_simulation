@@ -24,3 +24,13 @@ DRIVER_ADDRESS="12 Main Rd, Kochi" npm start
 - Set `BASE_URL=https://your-domain` so bill links are correct, and serve behind HTTPS in production.
 
 Data lives in `data/cab.db` (SQLite) — back it up. Test: `npm test`.
+
+## Hosting on a Raspberry Pi (free)
+```bash
+git clone -b claude/cab-rental-website-ip2c1h https://github.com/albingeorge7/Ros_ur5_simulation.git
+cd Ros_ur5_simulation/cab-rental && bash deploy/setup-pi.sh
+```
+Installs Node 22, runs the app as a service that starts on boot. To make it reachable from the internet for free,
+use Cloudflare Tunnel (no router changes): `cloudflared tunnel --url http://localhost:3000` for a quick test address,
+or a named tunnel with your own domain for a permanent one. Then set `BASE_URL` in `/etc/cab-rental.env` and
+`sudo systemctl restart cab-rental`. Back up `data/cab.db` regularly.
